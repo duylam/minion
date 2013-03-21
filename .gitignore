@@ -1,0 +1,8 @@
+*~
+*.err
+*.out
+*.log
+.project
+.metadata
+node_modules
+*.DS_Store
