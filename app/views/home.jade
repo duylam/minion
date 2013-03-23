@@ -1,7 +1,58 @@
 extends ./layout
-
     
 block mainContentBlock
-  h1 Home
-    
-    
+  h3 
+  form#frmCreatRoom.form-horizontal
+    fieldset
+      legend Tạo phòng
+      #warningSection.alert.alert-error.invisible
+        button.close(type="button") &times;
+        span#warningMessage &nbsp;
+        
+      .control-group
+        .controls
+          - var peopleJoined = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+          select#peopleAmountInput(name="peopleAmountInput")
+            option(value="0") Số lượng người
+            each p in peopleJoined
+              option(value=p)= p
+      .control-group
+        .controls
+          input#nameInput(type="text", placeholder="Tên bạn", name="nameInput")
+      .control-group
+        .controls
+          button#btnCreateRoom.btn(type="button") Tạo phòng
+
+  script(type="text/javascript")
+    $(function(){
+      var warningSection = $('#warningSection');
+      $('.close', warningSection).click(function() {
+        warningSection.removeClass('visible').addClass('invisible');
+      });
+      
+      
+      function validateInput() {
+        var msgLabel = $('#warningMessage');
+        var inputOk = true;
+        
+        if( $('#peopleAmountInput :selected').val() == '0' ) {
+          msgLabel.text('Chọn người dùm cái bạn ơi');
+          inputOk = false;
+        }
+        
+        if( inputOk && !$('#nameInput').val() ) {
+          msgLabel.text('Nhập tên vô dùm cái bạn ơi');
+          inputOk = false;
+        }
+        
+        if( !inputOk ) {
+          warningSection.removeClass('invisible').addClass('visible');
+        }
+        
+        return inputOk;
+      }
+      
+      $('#btnCreateRoom').click(function() {
+        if( validateInput() ) $('#frmCreatRoom').submit();
+      });
+    });
