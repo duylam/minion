@@ -1,7 +1,24 @@
 define([], function() {
   var warningSection = $('#warningSection');
+  var pickLess = $('#btnPickLess');
+  var pickMore = $('#btnPickMore');
+  var btnSelectedCssName = 'btn-primary';
+  var pickLessInput = $('#pickLessInput');
+  pickLessInput.val(pickLess.hasClass(btnSelectedCssName));
   $('.close', warningSection).click(function() {
-    warningSection.removeClass('visible').addClass('invisible');
+    warningSection.addClass('invisible');
+  });
+  
+  _.each([pickLess, pickMore], function(ele) {
+    ele.click(function() {
+      var self = $(this);
+      if( !self.hasClass(btnSelectedCssName) ) {
+        pickLess.removeClass(btnSelectedCssName);
+        pickMore.removeClass(btnSelectedCssName);
+        self.addClass(btnSelectedCssName);
+        pickLessInput.val(pickLess.hasClass(btnSelectedCssName));
+      }
+    });
   });
   
   function validateInput() {
@@ -27,7 +44,7 @@ define([], function() {
     }
     
     if( !inputOk ) {
-      warningSection.removeClass('invisible').addClass('visible');
+      warningSection.removeClass('invisible');
     }
     
     return inputOk;

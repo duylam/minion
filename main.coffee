@@ -45,6 +45,13 @@ app.get '/', (req, res) ->
 app.post '/create', (req, res) ->
   controller.create req, res
   
+app.get '/join', (req, res) ->
+  controller.join req, res
+
+app.get '/about', (req, res) ->
+  controller.about req, res
+
+
 app.get '/game', (req, res) ->
   controller.game req, res
   

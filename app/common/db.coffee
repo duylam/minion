@@ -1,12 +1,13 @@
 sqlite3 = require 'sqlite3'
 path = require 'path'
 helpers = require './helpers'
+DateString = require './dateString'
 
 class DB
   
   createDB: (cb) ->
     self = @
-    self.db.run "CREATE TABLE IF NOT EXISTS game (key TEXT, createdAt TEXT, clientAmount INTEGER)", (err) ->
+    self.db.run "CREATE TABLE IF NOT EXISTS game (key TEXT, createdAt TEXT, clientAmount INTEGER, pickLess INTEGER)", (err) ->
       if !err
         self.db.run "CREATE TABLE IF NOT EXISTS client (gameKey TEXT, socketKey TEXT, name TEXT)", (err) ->
           if !err
@@ -16,9 +17,9 @@ class DB
       else
         global.logger.error 'Failed to create GAME table'  
   
-  saveNewGame: (gameKey, peopleNum, firstPlayerName) ->
-    @db.run "INSERT INTO game VALUES (?, ?, ?)", [ gameKey, "unknown createdAt", peopleNum]
-    @db.run "INSERT INTO client VALUES (?, ?, ?)", [ gameKey, "unknown socket", firstPlayerName]
+  saveNewGame: (gameKey, socketKey, peopleNum, firstPlayerName, pickLess) ->
+    @db.run "INSERT INTO game VALUES (?, ?, ?, ?)", [ gameKey, DateString.fromDate(new Date).toString(), peopleNum, pickLess]
+    @db.run "INSERT INTO client VALUES (?, ?, ?)", [ gameKey, socketKey, firstPlayerName]
     
   
   init: (cb) ->

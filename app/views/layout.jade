@@ -6,6 +6,7 @@ html
     script(type="text/javascript", src='/js/jquery.min.js')
     script(type="text/javascript", src='/js/bootstrap.min.js')
     script(type="text/javascript", src='/js/require.min.js')
+    script(type="text/javascript", src='/js/underscore-min.js')
     link(href='/css/bootstrap.min.css', rel='stylesheet')
     link(href='/css/style.css', rel='stylesheet')
   body
@@ -15,7 +16,29 @@ html
       });
   
     .container(style="width: 1000px;")
-      a(href="/") Home
+      ul.nav.nav-pills
+        if page == 'home'
+          li.active
+            a(href="/") 
+              i.icon-home.icon-white
+              | Tạo phòng
+        else
+          li
+            a(href="/") 
+              i.icon-home
+              | Tạo phòng
+        if page == 'join'  
+          li.active
+            a(href="/join") Vào phòng
+        else
+          li
+            a(href="/join") Vào phòng
+        if page == 'about'
+          li.active
+            a(href="/about") Giới thiệu
+        else
+          li
+            a(href="/about") Giới thiệu
       
       block mainContentBlock
     

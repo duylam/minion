@@ -17,10 +17,16 @@ block mainContentBlock
               option(value=p)= p
       .control-group
         .controls
-          input#nameInput(type="text", placeholder="Tên bạn", name="nameInput")
+          input#nameInput.input-xlarge(type="text", placeholder="Tên bạn", name="nameInput", maxlength="100")
       .control-group
         .controls
-          button#btnCreateRoom.btn(type="button") Tạo phòng
+          input#pickLessInput(type="hidden", name="pickLessInput")
+          button#btnPickLess.btn.btn-primary(type="button") Nhiều ra ít bị
+          | &nbsp;&nbsp;
+          button#btnPickMore.btn(type="button") Ít ra nhiều bị
+      .control-group
+        .controls
+          button#btnCreateRoom.btn.btn-success(type="button") Tạo phòng
 
   script(type="text/javascript")
     require([ 'home' ]);

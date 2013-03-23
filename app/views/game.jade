@@ -2,7 +2,12 @@ extends ./layout
     
 block mainContentBlock
   h3 In game
-  h5= d
+  
+  h6= playerName
+  h6= gameKey
+  h6= pickLess
+  h6= socketKey
+  h6= playerAmount
 
   script(type="text/javascript")
     require([ 'game' ]);

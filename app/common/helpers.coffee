@@ -1,3 +1,5 @@
+crypto = require 'crypto'
+
 # Return string value or '' if value is null or undefinded
 exports.getSafeStringValue = (str) ->
   return str or ''
@@ -14,3 +16,17 @@ exports.formatString = ->
     ++i
   
   return s
+  
+exports.generateUniqueKey = (value, cb) -> 
+  key = (new Date).getTime().toString()
+  for v, i in value
+    key += value.charCodeAt(i).toString(16)
+  
+  crypto.randomBytes 15, (err, buff) ->
+    if err
+      cb key
+    else
+      for b in buff
+        key += b.toString 16
+      
+      cb key
