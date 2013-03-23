@@ -5,10 +5,19 @@ html
     title Trần Quốc Toản ra quân
     script(type="text/javascript", src='/js/jquery.min.js')
     script(type="text/javascript", src='/js/bootstrap.min.js')
+    script(type="text/javascript", src='/js/require.min.js')
     link(href='/css/bootstrap.min.css', rel='stylesheet')
     link(href='/css/style.css', rel='stylesheet')
   body
-    .container
+    script(type="text/javascript")
+      require.config({
+        baseUrl: '/js/modules'
+      });
+  
+    .container(style="width: 1000px;")
       block mainContentBlock
     
-    a(href="https://github.com/duylam/minion") See me in Github
+      a(href="https://github.com/duylam/minion") See me in Github
+    
+    
+   
