@@ -6,15 +6,23 @@ define([], function() {
   
   function validateInput() {
     var msgLabel = $('#warningMessage');
+    var selectCtrl = $('#peopleAmountInput');
+    var nameCtrl = $('#nameInput');
+    var parentNameCtrl = nameCtrl.parent().parent();
+    var parentSelectCtrl = selectCtrl.parent().parent();
     var inputOk = true;
+    parentNameCtrl.removeClass('error');
+    parentSelectCtrl.removeClass('error');
     
-    if( $('#peopleAmountInput :selected').val() == '0' ) {
+    if( $(':selected', selectCtrl).val() == '0' ) {
       msgLabel.text('Chọn người dùm cái bạn ơi');
+      parentSelectCtrl.addClass('error');
       inputOk = false;
     }
     
-    if( inputOk && !$('#nameInput').val() ) {
+    if( inputOk && !nameCtrl.val() ) {
       msgLabel.text('Nhập tên vô dùm cái bạn ơi');
+      parentNameCtrl.addClass('error');
       inputOk = false;
     }
     

@@ -1,3 +1,5 @@
+db = require './common/db'
+
 class Controller
   render: (res, viewName, templateData) ->
     templateData ?= {}
@@ -8,10 +10,13 @@ class Controller
     @render res, 'home'
     
   create: (req, res) ->
-    req.flash 'test', 'data'
+    db.saveNewGame 'unknown game key', req.body.peopleAmountInput, req.body.nameInput
+    req.flash 'fromCreation', 'true'
+    req.flash 'gameKey', 'unknown game key'
+    req.flash 'playerName', req.body.nameInput
     res.redirect 'game'
     
   game: (req, res) ->
-    @render res, 'game', { d: req.flash('test') }
+    @render res, 'game', { d: req.flash('playerName') }
 
 module.exports = new Controller

@@ -1,7 +1,11 @@
 express = require 'express'
 path = require 'path'
+require './app/common/initial'
+
+require './app/common/logger'
 controller = require './app/controller'
 flash = require 'connect-flash'
+db = require './app/common/db'
 
 ################################################################
 
@@ -17,10 +21,10 @@ A_DAY = AN_HOUR * 24
 
 # Setup http web server
 app = express()
-cacheDuration = A_DAY
+cacheDuration = 0
 
-app.configure 'development', ->
-  cacheDuration = 0
+global.environment.on 'production', ->
+  cacheDuration = A_DAY
 
 app.configure ->
   app.set 'views', path.join(__dirname, 'app/views')
@@ -50,4 +54,8 @@ app.all '/*', (req, res) ->
 
 ################################################################
 
-app.listen 7000
+port = 7000
+db.init ->
+  app.listen port
+  global.logger.info 'Web server started on port ' + port
+  
