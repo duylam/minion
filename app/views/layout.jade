@@ -9,7 +9,9 @@ html
     script(type="text/javascript", src='/js/underscore-min.js')
     link(href='/css/bootstrap.min.css', rel='stylesheet')
     link(href='/css/style.css', rel='stylesheet')
+    block headerBlock
   body
+    input#serverWebsocketPortValue(type="hidden", value="#{websocketPort}")
     script(type="text/javascript")
       require.config({
         baseUrl: '/js/modules'
@@ -42,7 +44,8 @@ html
       
       block mainContentBlock
     
-      a(href="https://github.com/duylam/minion") See me in Github
+      p
+        a(href="https://github.com/duylam/minion") See me in Github
     
     
    

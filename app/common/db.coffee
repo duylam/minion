@@ -17,10 +17,12 @@ class DB
       else
         global.logger.error 'Failed to create GAME table'  
   
+  savePlayer: (gameKey, socketKey, playerName) ->
+    @db.run "INSERT INTO client VALUES (?, ?, ?)", [ gameKey, socketKey, playerName]
+  
   saveNewGame: (gameKey, socketKey, peopleNum, firstPlayerName, pickLess) ->
     @db.run "INSERT INTO game VALUES (?, ?, ?, ?)", [ gameKey, DateString.fromDate(new Date).toString(), peopleNum, pickLess]
-    @db.run "INSERT INTO client VALUES (?, ?, ?)", [ gameKey, socketKey, firstPlayerName]
-    
+    @savePlayer gameKey, socketKey, firstPlayerName    
   
   init: (cb) ->
     self = @

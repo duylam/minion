@@ -1,13 +1,36 @@
 extends ./layout
-    
-block mainContentBlock
-  h3 In game
-  
-  h6= playerName
-  h6= gameKey
-  h6= pickLess
-  h6= socketKey
-  h6= playerAmount
 
+block headerBlock
+  script(type="text/javascript", src='/js/socket.io.v0.9.10.js')
+  script(type="text/javascript", src='/js/mediator.js')
+  
+block mainContentBlock
+  input#server_playerName(type="hidden", value="#{playerName}")
+  input#server_gameKey(type="hidden", value="#{gameKey}")
+  input#server_pickLess(type="hidden", value="#{pickLess}")
+  input#server_socketKey(type="hidden", value="#{socketKey}")
+  input#server_playerAmount(type="hidden", value="#{playerAmount}")
+  
+  .row
+    .span2
+      img(src="/images/hand.jpg")
+      p Player name
+    .span2
+      img(src="/images/hand.jpg")
+      p Player name
+
+  br
+  br
+  .row
+    .span2
+      img(src="/images/hand.jpg")
+      p Player name
+    .span2
+      img(src="/images/hand.jpg")
+      p Player name
+
+  img#btnSelectHandUp.clickable(src="/images/hand-up.png",width="140")
+  img#btnSelectHandDown.clickable(src="/images/hand-down.png",width="140")
+      
   script(type="text/javascript")
     require([ 'game' ]);

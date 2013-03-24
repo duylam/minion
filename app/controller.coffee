@@ -5,6 +5,7 @@ class Controller
   render: (res, viewName, templateData) ->
     templateData ?= {}
     templateData.page = '' unless templateData.page
+    templateData.websocketPort = global.config.WEBSOCKET_PORT
     res.contentType 'text/html'
     res.render viewName, templateData
   
@@ -31,7 +32,7 @@ class Controller
         db.saveNewGame gameKey, playerSocketKey, playerAmount, playerName, pickLess
         req.flash 'gameKey', gameKey
         req.flash 'playerName', playerName
-        req.flash 'pickLess', pickLessValueString
+        req.flash 'pickLess', pickLess
         req.flash 'socketKey', playerSocketKey
         req.flash 'playerAmount', playerAmount
         res.redirect 'game'

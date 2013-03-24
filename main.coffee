@@ -14,18 +14,11 @@ A_MINUTE = 60 * A_SECOND
 AN_HOUR = 60 * A_MINUTE
 A_DAY = AN_HOUR * 24
 
-################################################################
-
 
 ################################################################
 
 # Setup http web server
 app = express()
-cacheDuration = 0
-
-global.environment.on 'production', ->
-  cacheDuration = A_DAY
-
 app.configure ->
   app.set 'views', path.join(__dirname, 'app/views')
   app.set 'view engine', 'jade'
@@ -34,7 +27,7 @@ app.configure ->
   app.use flash()
   app.use express.bodyParser()
   app.use express.methodOverride()
-  app.use express.static(path.join(__dirname, 'public'), { maxAge: cacheDuration })
+  app.use express.static(path.join(__dirname, 'public'), { maxAge: global.config.STATIC_FILE_CACHE_DURATION })
   app.use app.router
 
 
@@ -61,8 +54,8 @@ app.all '/*', (req, res) ->
 
 ################################################################
 
-port = 7000
 db.init ->
-  app.listen port
-  global.logger.info 'Web server started on port ' + port
+  app.listen global.config.WEB_PORT
+  require './app/common/websocket'
+  global.logger.info 'Web server started on port ' + global.config.WEB_PORT
   
