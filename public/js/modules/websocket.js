@@ -17,7 +17,8 @@ define(['utility'], function() {
   
   function onSocketConnected() {
     connectToServerOk = true;
-    Minion.mediator.publish('connected');
+    var theSocket = this;
+    Minion.mediator.publish('connected', theSocket);
   }
   
   function onSocketMessageAvaialble(msg) {
@@ -27,15 +28,8 @@ define(['utility'], function() {
   
   function tryToConnect() {
     var socket = io.connect(location.protocol + '//' + location.host, connectionOptions);
-    Minion.sendSocket = function(type, data) {
-      socket.send(JSON.stringify({
-        type: type
-        , key: $('#server_socketKey').val()
-        , data: data
-      }));
-    };
     
-    socket.on('connect', onSocketConnected);
+    socket.on('connect', _.bind(onSocketConnected, socket)); // attach socket object to function
     socket.on('message', onSocketMessageAvaialble);
     socket.on('disconnect', onSocketDisconnected);
       
@@ -43,16 +37,21 @@ define(['utility'], function() {
       if( !connectToServerOk ) {
         // IDM (Internet Download Manager) application interferes the websocket connection so
         // we will switch to polling in case web socket doesn't work
-        socket.removeListener('connect', onSocketConnected);
-        socket.removeListener('message', onSocketMessageAvaialble);
-        socket.removeListener('disconnect', onSocketDisconnected);
         socket.disconnect();
       }
     }, connectionEstablishedTimeout);
   }
   
-  Minion.mediator.subscribe('connected', function() {
-    // Hide disconnect alert
+  Minion.mediator.subscribe('connected', function(socket) {
+    Minion.mediator.subscribe('socket receive', function(eventName, cb){
+      socket.on(eventName, cb);
+    });
+    
+    Minion.mediator.subscribe('socket send', function(eventName, data){
+      socket.emit(eventName, data);
+    });
+    
+    Minion.mediator.publish('socket ready');
   });
     
   Minion.mediator.subscribe('disconnected', function() {

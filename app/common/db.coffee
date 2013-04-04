@@ -3,13 +3,12 @@ path = require 'path'
 helpers = require './helpers'
 DateString = require './dateString'
 
-class DB
-  
+class DB  
   createDB: (cb) ->
     self = @
-    self.db.run "CREATE TABLE IF NOT EXISTS game (key TEXT, createdAt TEXT, clientAmount INTEGER, pickLess INTEGER)", (err) ->
+    self.db.run "CREATE TABLE IF NOT EXISTS game (key TEXT, createdAt TEXT, clientAmount INTEGER, pickLess TEXT)", (err) ->
       if !err
-        self.db.run "CREATE TABLE IF NOT EXISTS client (gameKey TEXT, socketKey TEXT, name TEXT)", (err) ->
+        self.db.run "CREATE TABLE IF NOT EXISTS client (gameKey TEXT, socketKey TEXT, name TEXT, handType INTEGER)", (err) ->
           if !err
             cb()
           else
@@ -17,12 +16,27 @@ class DB
       else
         global.logger.error 'Failed to create GAME table'  
   
-  savePlayer: (gameKey, socketKey, playerName) ->
-    @db.run "INSERT INTO client VALUES (?, ?, ?)", [ gameKey, socketKey, playerName]
+  savePlayer: (gameKey, socketKey, playerName, cb) ->
+    @db.run "INSERT INTO client VALUES (?, ?, ?, 0)", [ gameKey, socketKey, playerName], cb
+    
+  saveHandForPlayer: (socketKey, handUp, cb) ->
+    handType = if handUp then 1 else -1
+    @db.run "UPDATE client SET handType = ? WHERE socketKey=?", [ handType, socketKey ], cb
   
-  saveNewGame: (gameKey, socketKey, peopleNum, firstPlayerName, pickLess) ->
-    @db.run "INSERT INTO game VALUES (?, ?, ?, ?)", [ gameKey, DateString.fromDate(new Date).toString(), peopleNum, pickLess]
-    @savePlayer gameKey, socketKey, firstPlayerName    
+  saveNewGame: (gameKey, peopleNum, pickLess, cb) ->
+    @db.run "INSERT INTO game VALUES (?, ?, ?, ?)", [ gameKey, DateString.fromDate(new Date).toString(), peopleNum, pickLess], cb
+        
+  getGame: (gameKey, cb) ->
+    @db.get "SELECT * FROM game WHERE  key=?", [ gameKey ], (err, row) ->
+      unless err
+        cb null,
+          id: row.key
+          createdAt: DateString.fromString(row.createdAt).toDate()
+          clientAmount: row.clientAmount
+          pickLess: row.pickLess == 'true'
+          
+      else
+        cb err
   
   init: (cb) ->
     self = @

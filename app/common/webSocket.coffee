@@ -1,5 +1,5 @@
 event = require './event'
-handler = require './messageHandler'
+handler = require './socketHandler'
 
 class WebSocketManager
   constructor: ->
@@ -17,8 +17,7 @@ class WebSocketManager
         .set('log level', 0)
         
     @io.sockets.on 'connection', (socket) ->
-      socket.on 'message', (message) ->
-        handler.process message, socket
+      handler.setup socket, self.io
       
     event.on 'send room', (roomName, data) ->
       message = JSON.stringify(data)

@@ -29,8 +29,13 @@ block mainContentBlock
       img(src="/images/hand.jpg")
       p Player name
 
-  img#btnSelectHandUp.clickable(src="/images/hand-up.png",width="140")
-  img#btnSelectHandDown.clickable(src="/images/hand-down.png",width="140")
+  ul.thumbnails
+    li#btnSelectHandUp.span3.clickable.select-hand
+      div.thumbnail
+        img(src="/images/hand-up.png",width="100")
+    li#btnSelectHandDown.span3.clickable.select-hand
+      div.thumbnail
+        img(src="/images/hand-down.png",width="140")
       
   script(type="text/javascript")
     require([ 'game' ]);

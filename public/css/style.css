@@ -1,2 +1,6 @@
 .invisible{visibility: hidden;}
 .clickable{cursor:pointer;}
+
+.select-hand-non-hover, .select-hand{background-color:#dCDCDC;opacity:0.6;}
+.select-hand:hover{opacity:1;background-color:inherit;}
+

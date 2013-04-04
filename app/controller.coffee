@@ -13,29 +13,20 @@ class Controller
     @render res, 'home', { page: 'home' }
     
   join: (req, res) ->
-    @render res, 'join', { page: 'join' }
+    @doJoin req, res, req.body.gameKeyInput, req.body.nameInput
     
   about: (req, res) ->
     @render res, 'about', { page: 'about' }
     
   create: (req, res) ->
-    gameKey = ''
+    self = @
     playerName = req.body.nameInput
-    pickLessValueString = req.body.pickLessInput
-    pickLess = if pickLessValueString == 'true' then 1 else 0
+    pickLess = req.body.pickLessInput
     playerAmount = req.body.peopleAmountInput
     gameKeySeed = playerName + pickLess + playerAmount
-    helpers.generateUniqueKey gameKeySeed, (key) ->
-      gameKey = key
-      helpers.generateUniqueKey playerName, (key2) ->
-        playerSocketKey = key2
-        db.saveNewGame gameKey, playerSocketKey, playerAmount, playerName, pickLess
-        req.flash 'gameKey', gameKey
-        req.flash 'playerName', playerName
-        req.flash 'pickLess', pickLess
-        req.flash 'socketKey', playerSocketKey
-        req.flash 'playerAmount', playerAmount
-        res.redirect 'game'
+    helpers.generateUniqueKey gameKeySeed, (gameKey) ->
+      db.saveNewGame gameKey, playerAmount, pickLess, ->
+        self.doJoin req, res, gameKey, playerName
     
   game: (req, res) ->
     @render res, 'game',
@@ -45,4 +36,14 @@ class Controller
       socketKey: req.flash('socketKey')
       playerAmount: req.flash('playerAmount')
 
+  doJoin: (req, res, gameKey, playerName) ->
+    helpers.generateUniqueKey playerName, (socketKey) ->
+      db.getGame gameKey, (err, obj) ->
+        req.flash 'gameKey', gameKey
+        req.flash 'playerName', playerName
+        req.flash 'socketKey', socketKey
+        req.flash 'playerAmount', obj.clientAmount
+        req.flash 'pickLess', obj.pickLess
+        res.redirect 'game'
+    
 module.exports = new Controller
