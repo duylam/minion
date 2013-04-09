@@ -9,14 +9,37 @@ class Controller
     res.contentType 'text/html'
     res.render viewName, templateData
   
-  home: (req, res) ->
-    @render res, 'home', { page: 'home' }
+  new: (req, res) ->
+    @render res, 'new', { page: 'new' }
     
-  join: (req, res) ->
+  add: (req, res) ->
     @doJoin req, res, req.body.gameKeyInput, req.body.nameInput
+  
+  join: (req, res) ->
+    gameKey = req.query.k
+    controller = @
+    onInvalidGameKey = ->
+      req.flash 'invalid-game-key', true
+      res.redirect 'game'
     
-  about: (req, res) ->
-    @render res, 'about', { page: 'about' }
+    unless gameKey
+      onInvalidGameKey()
+      return
+    
+    db.getGame gameKey, (err, obj) -> 
+      if !err and obj
+        templateData =
+          pickLess: obj.pickLess
+          playerAmount: obj.clientAmount
+          gameKey: gameKey
+        controller.render res, 'join', templateData
+      else
+        onInvalidGameKey()
+    
+  home: (req, res) ->
+    @render res, 'home',
+      page: 'home'
+      dbError: req.flash('db error').length > 0
     
   create: (req, res) ->
     self = @
@@ -25,8 +48,8 @@ class Controller
     playerAmount = req.body.peopleAmountInput
     gameKeySeed = playerName + pickLess + playerAmount
     helpers.generateUniqueKey gameKeySeed, (gameKey) ->
-      db.saveNewGame gameKey, playerAmount, pickLess, ->
-        self.doJoin req, res, gameKey, playerName
+      db.saveNewGame gameKey, playerAmount, pickLess, (err) ->
+        self.goToGame req, res, gameKey, playerName
     
   game: (req, res) ->
     @render res, 'game',
@@ -36,14 +59,18 @@ class Controller
       socketKey: req.flash('socketKey')
       playerAmount: req.flash('playerAmount')
 
-  doJoin: (req, res, gameKey, playerName) ->
+  goToGame: (req, res, gameKey, playerName) ->
     helpers.generateUniqueKey playerName, (socketKey) ->
       db.getGame gameKey, (err, obj) ->
-        req.flash 'gameKey', gameKey
-        req.flash 'playerName', playerName
-        req.flash 'socketKey', socketKey
-        req.flash 'playerAmount', obj.clientAmount
-        req.flash 'pickLess', obj.pickLess
-        res.redirect 'game'
+        if !err and obj
+          req.flash 'gameKey', gameKey
+          req.flash 'playerName', playerName
+          req.flash 'socketKey', socketKey
+          req.flash 'playerAmount', obj.clientAmount
+          req.flash 'pickLess', obj.pickLess
+          res.redirect 'game'
+        else
+          req.flash 'db error', true
+          res.redirect '/'
     
 module.exports = new Controller

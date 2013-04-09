@@ -30,6 +30,7 @@ define([ 'websocket' ], function() {
   });
 
   ///////////// Code
-  
+  var joinLink = location.protocol + '//' + location.host + '/join?k=' + Minion.getGameKey();
+  $('#copyJoinLinkInput').attr('href', joinLink).text(joinLink);
   
 });

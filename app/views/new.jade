@@ -1,0 +1,32 @@
+extends ./layout
+    
+block mainContentBlock
+  form#frmCreatRoom.form-horizontal(method="post", action="create")
+    fieldset
+      legend Tạo phòng
+      #warningSection.alert.alert-error.invisible
+        button.close(type="button") &times;
+        span#warningMessage &nbsp;
+        
+      .control-group
+        .controls
+          - var peopleJoined = [3, 4, 5, 6, 7, 8, 9, 10];
+          select#peopleAmountInput(name="peopleAmountInput")
+            option(value="0") Số lượng người
+            each p in peopleJoined
+              option(value=p)= p
+      .control-group
+        .controls
+          input#nameInput.input-xlarge(type="text", placeholder="Tên bạn", name="nameInput", maxlength="100")
+      .control-group
+        .controls
+          input#pickLessInput(type="hidden", name="pickLessInput")
+          button#btnPickLess.btn.btn-primary(type="button") Nhiều ra ít bị
+          | &nbsp;&nbsp;
+          button#btnPickMore.btn(type="button") Ít ra nhiều bị
+      .control-group
+        .controls
+          button#btnCreateRoom.btn.btn-success(type="button") Tạo phòng
+
+  script(type="text/javascript")
+    require([ 'home' ]);

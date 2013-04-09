@@ -35,19 +35,21 @@ app.configure ->
 app.get '/', (req, res) ->
   controller.home req, res
 
+app.get '/new', (req, res) ->
+  controller.new req, res
+
 app.post '/create', (req, res) ->
   controller.create req, res
   
+app.post '/add', (req, res) ->
+  controller.add req, res
+
 app.get '/join', (req, res) ->
   controller.join req, res
 
-app.get '/about', (req, res) ->
-  controller.about req, res
-
-
 app.get '/game', (req, res) ->
   controller.game req, res
-  
+
 # "File not found" page
 app.all '/*', (req, res) ->
   res.redirect '/'
@@ -59,3 +61,6 @@ db.init ->
   require './app/common/websocket'
   global.logger.info 'Web server started on port ' + global.config.WEB_PORT
   
+process.on 'uncaughtException', (err) ->
+  global.logger.error err
+

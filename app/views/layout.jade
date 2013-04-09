@@ -23,29 +23,21 @@ html
           li.active
             a(href="/") 
               i.icon-home.icon-white
-              | Tạo phòng
+              | Giới thiệu
         else
           li
             a(href="/") 
               i.icon-home
-              | Tạo phòng
-        if page == 'join'  
+              | Giới thiệu
+        if page == 'new'
           li.active
-            a(href="/join") Vào phòng
+            a(href="/new") Tạo phòng
         else
           li
-            a(href="/join") Vào phòng
-        if page == 'about'
-          li.active
-            a(href="/about") Giới thiệu
-        else
-          li
-            a(href="/about") Giới thiệu
+            a(href="/new") Tạo phòng
+        
       
       block mainContentBlock
-    
-      p
-        a(href="https://github.com/duylam/minion") See me in Github
     
     
    
