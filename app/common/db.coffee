@@ -26,6 +26,13 @@ class DB
   saveNewGame: (gameKey, peopleNum, pickLess, cb) ->
     @db.run "INSERT INTO game VALUES (?, ?, ?, ?)", [ gameKey, DateString.fromDate(new Date).toString(), peopleNum, pickLess], cb
         
+  getPlayersInGame: (gameKey, cb) ->
+    @db.all "SELECT * FROM client WHERE gameKey=?", [ gameKey ], (err, rows) ->
+      if !err
+        cb null, rows.map( (e) -> { key: e.socketKey.substr(5, 5), name: e.name, hand: e.handType } )          
+      else
+        cb err
+  
   getGame: (gameKey, cb) ->
     @db.get "SELECT * FROM game WHERE key=?", [ gameKey ], (err, row) ->
       if !err and row

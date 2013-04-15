@@ -5,9 +5,10 @@ define([ 'websocket' ], function() {
     Minion.mediator.publish('socket receive', 'socket key ready', function() {
       Minion.mediator.publish('socket send', 'join game', { playerName: Minion.getPlayerName() , gameKey: Minion.getGameKey() });  
     });
+    Minion.mediator.publish('socket receive', 'update players state', function(data) {
+       //key  name    hand
+    });
   });
-  
-  
   
   /////////////// Add event handlers
   var handUpBtn = $('#btnSelectHandUp');
