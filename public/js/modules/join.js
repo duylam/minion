@@ -1,8 +1,7 @@
-define([], function() {
+define(['utility'], function() {
   var nameCtrl = $('#nameInput');
-  $('#lblPlayerAmount').text($('#server_playerAmount').val());
   nameCtrl.focus();
-  if($('#server_pickLess').val() == 'true')
+  if( Minion.isPickLess() )
     $('#lblPickLess').removeClass('hide');
   else
     $('#lblPickMore').removeClass('hide');
@@ -20,7 +19,7 @@ define([], function() {
     return inputOk;
   }
   
-  $('#btnJoinRoom').click(function() {
-    if( validateInput() ) $('#frmJoinRoom').submit();
+  $('#frmJoinRoom').submit(function() {
+    return validateInput();
   });
 });

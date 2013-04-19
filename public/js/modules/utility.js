@@ -1,4 +1,4 @@
-define([], function() {
+define(['mediator'], function() {
   global = {};
   global.getGameKey = function() {
     return $('#server_gameKey').val();
@@ -12,8 +12,6 @@ define([], function() {
   global.getSocketKey = function() {
     return $('#server_socketKey').val();
   };
-  
-  
   
   window.Minion = global;
   window.Minion.mediator = Mediator;

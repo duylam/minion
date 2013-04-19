@@ -45,9 +45,11 @@ class Handler
             if players.length < game.clientAmount
               socket.get 'key', (err, socketKey) ->
                 unless err
-                  db.savePlayer gameKey, socketKey, playerName, (err) ->
-                    unless err
-                      handler.broadcastHandUpdated gameKey, socket, io, true
+                  # Check duplicated ?
+                  unless players.some( (p) -> p.socketKey == socketKey )
+                    db.savePlayer gameKey, socketKey, playerName, (err) ->
+                      unless err
+                        handler.broadcastHandUpdated gameKey, socket, io, true
             
             else
               # game is full

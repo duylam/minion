@@ -1,4 +1,4 @@
-define([ 'websocket' ], function() {
+define(['utility', 'websocket' ], function() {
   var playerAmount = parseInt( $('#server_playerAmount').val() );
   var playerRows = $('#playerRow1 > div, #playerRow2 > div');
   Minion.mediator.subscribe('socket ready', function() {

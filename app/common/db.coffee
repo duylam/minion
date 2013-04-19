@@ -33,7 +33,7 @@ class DB
   getPlayersInGame: (gameKey, cb) ->
     @db.all "SELECT * FROM client WHERE gameKey=?", [ gameKey ], (err, rows) ->
       if !err
-        cb null, rows.map( (e) -> { name: e.name, handUnset: e.handType == HAND_UNSET, handUp: e.handType == HAND_UP } )          
+        cb null, rows.map( (e) -> { name: e.name, handUnset: e.handType == HAND_UNSET, handUp: e.handType == HAND_UP, socketKey: e.socketKey } )          
       else
         cb err
   

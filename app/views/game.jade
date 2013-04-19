@@ -1,8 +1,5 @@
 extends ./layout
 
-block headerBlock
-  script(type="text/javascript", src='/js/mediator.js')
-  
 block mainContentBlock
   input#server_playerName(type="hidden", value="#{playerName}")
   input#server_gameKey(type="hidden", value="#{gameKey}")

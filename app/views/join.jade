@@ -2,26 +2,25 @@ extends ./layout
     
 block mainContentBlock
   input#server_pickLess(type="hidden", value="#{pickLess}")
-  input#server_playerAmount(type="hidden", value="#{playerAmount}")
-  form#frmJoinRoom.form-horizontal(method="post", action="add")
+  form#frmJoinRoom.span4.form-horizontal(method="post", action="add")
     input(name="gameKeyInput",type="hidden", value="#{gameKey}")
     fieldset
-      legend Vào phòng
+      legend Vào phòng chơi
       .control-group
+        label.control-label Tên bạn
         .controls
           input#nameInput.input-xlarge(type="text", placeholder="Tên bạn", name="nameInput", maxlength="100")
       .control-group
         label.control-label Loại
         .controls
-          span#lblPickLess.label.label-info.hide Nhiều ra ít bị
-          span#lblPickMore.label.label-info.hide Ít ra nhiều bị
+          input#lblPickLess.input-large.hide(type="text", value="Nhiều ra ít bị", disabled) 
+          input#lblPickMore.input-large.hide(type="text", value="Ít ra nhiều bị", disabled) 
       .control-group
         label.control-label Số người chơi
         .controls
-          span#lblPlayerAmount.label.label-info
-      .control-group
-        .controls
-          button#btnJoinRoom.btn.btn-success(type="button") Vào phòng
+          input.input-mini(type="text",value="#{playerAmount}",disabled)
+      .form-actions
+        button.btn.btn-primary(type="submit") Vào phòng
 
   script(type="text/javascript")
     require([ 'join' ]);
