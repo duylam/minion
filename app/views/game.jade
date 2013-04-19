@@ -9,8 +9,36 @@ block mainContentBlock
   input#server_pickLess(type="hidden", value="#{pickLess}")
   input#server_socketKey(type="hidden", value="#{socketKey}")
   input#server_playerAmount(type="hidden", value="#{playerAmount}")
+  a#linkGoToBoard(href="#board")
   
-  a#copyJoinLinkInput
+  table.table.table-striped
+    tbody
+      tr
+        td Liên kết mời vào phòng
+        td
+          a#copyJoinLinkInput(onclick="return false;")
+      tr
+        td Cách chọn
+        td
+          span#pickLessLabel.hide Nhiều ra ít bị 
+          span#pickMoreLabel.hide Ít ra nhiều bị
+      tr
+        td Số lượng người 
+        td= playerAmount
+          
+  #handSelectSection.hide
+    #btnSelectHandUp.span3.clickable.select-hand.hand.up
+    #btnSelectHandDown.span3.clickable.select-hand.hand.down
+    #handSelectDescPanel(style="float: left;float: left;padding-left: 25px;padding-top:20px;")
+      .well.span2  
+        i.icon-hand-up 
+        | &nbsp; Hãy chọn tay
+      .clearfix
+      img(src="./images/select-hand-desc.gif")
+  .clearfix
+  p
+  h3 Diễn biến trò chơi
+  a(name="board")
   #playerRow1.row
     .span2.hide
       .hand.small
@@ -27,10 +55,6 @@ block mainContentBlock
     .span2.hide
       .hand.small
       span.playerName
-      
-
-  br
-  br
   #playerRow2.row.hide
     .span2.hide
       .hand.small
@@ -48,13 +72,5 @@ block mainContentBlock
       .hand.small
       span.playerName
 
-  p
-  p
-  #handSelectSection.hide
-    #btnSelectHandUp.span3.clickable.select-hand
-      .hand.up
-    #btnSelectHandDown.span3.clickable.select-hand
-      .hand.down
-      
   script(type="text/javascript")
     require([ 'game' ]);

@@ -22,16 +22,14 @@ define([ 'websocket' ], function() {
            view.find('.playerName').text(p.name);
            if( !p.handUnset ) {
              var handElement = view.find('.hand');
-             if( p.handUp ) {
-               handElement.addClass('up');
-             } else {
-               handElement.addClass('down');
-             }
+             handElement.fadeOut(500,function() {
+               handElement.addClass(p.handUp ? 'up' : 'down').fadeIn(500);
+             }); 
            }
          }
        });
        
-       $('#handSelectSection').show(500);
+       $('#handSelectSection').fadeIn(500);
     });
   });
   
@@ -43,9 +41,13 @@ define([ 'websocket' ], function() {
     otherHand.addClass('select-hand-non-hover');
     handDownBtn.off('click').removeClass('select-hand clickable');
     handUpBtn.off('click').removeClass('select-hand clickable');
+    $('#handSelectDescPanel').fadeOut(500);
     
     // Let server know
     Minion.mediator.publish('socket send', 'set hand', { up: isUp, gameKey: Minion.getGameKey() });
+    
+    // Jump to board
+    location.href = $('#linkGoToBoard').attr('href');    
   }
   
   handUpBtn.click(function() {
@@ -61,6 +63,10 @@ define([ 'websocket' ], function() {
   // Show join link
   var joinLink = location.protocol + '//' + location.host + '/join?k=' + Minion.getGameKey();
   $('#copyJoinLinkInput').attr('href', joinLink).text(joinLink);
+  
+  // Show pick label
+  if(Minion.isPickLess()) $('#pickLessLabel').removeClass('hide');
+  else $('#pickMoreLabel').removeClass('hide');
   
   // Unhide player rows
   var lagestIndex = playerAmount - 1;

@@ -3,6 +3,9 @@ define([], function() {
   global.getGameKey = function() {
     return $('#server_gameKey').val();
   };
+  global.isPickLess = function() {
+    return $('#server_pickLess').val() == 'true';
+  };
   global.getPlayerName = function() {
     return $('#server_playerName').val();
   };

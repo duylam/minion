@@ -17,7 +17,7 @@ class Controller
           req.flash 'playerName', playerName
           req.flash 'socketKey', socketKey
           req.flash 'playerAmount', obj.clientAmount
-          req.flash 'pickLess', obj.pickLess
+          req.flash 'pickLess', obj.pickLess.toString()
           res.redirect 'game'
         else
           req.flash 'db error', true
