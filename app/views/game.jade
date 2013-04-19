@@ -14,29 +14,26 @@ block mainContentBlock
   a#copyJoinLinkInput
   .row
     .span2
-      img(src="/images/hand.jpg")
+      .hand.small
       p Player name
     .span2
-      img(src="/images/hand.jpg")
+      .hand.small
       p Player name
 
   br
   br
   .row
     .span2
-      img(src="/images/hand.jpg")
+      .hand.small
       p Player name
     .span2
-      img(src="/images/hand.jpg")
+      .hand.small
       p Player name
 
-  ul.thumbnails
-    li#btnSelectHandUp.span3.clickable.select-hand
-      div.thumbnail
-        img(src="/images/hand-up.png",width="100")
-    li#btnSelectHandDown.span3.clickable.select-hand
-      div.thumbnail
-        img(src="/images/hand-down.png",width="140")
+  #btnSelectHandUp.span3.clickable.select-hand
+    .hand.up
+  #btnSelectHandDown.span3.clickable.select-hand
+    .hand.down
       
   script(type="text/javascript")
     require([ 'game' ]);

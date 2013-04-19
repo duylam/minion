@@ -5,3 +5,10 @@
 .select-hand:hover{opacity:1;background-color:inherit;}
 
 .hide{display:none;}
+.hand{background-image:url('../images/hand.png');background-position: 400px 0;width:200px;height:325px;}
+.hand.up{background-position: 200px 0;}
+.hand.down{background-position: 600px 0;}
+
+.hand.small{background-size:300px 162px;background-position:200px 0;width:100px;height:162px;}
+.hand.small.up{background-position: 100px 0;}
+.hand.small.down{background-position: 300px 0;}
