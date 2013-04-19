@@ -22,6 +22,9 @@ block mainContentBlock
       tr
         td Số lượng người 
         td= playerAmount
+      tr
+        td Tên bạn chọn
+        td= playerName
           
   #handSelectSection.hide
     #btnSelectHandUp.span3.clickable.select-hand.hand.up
@@ -34,7 +37,8 @@ block mainContentBlock
       img(src="./images/select-hand-desc.gif")
   .clearfix
   p
-  h3 Diễn biến trò chơi
+  h3#progressHeader Diễn biến trò chơi
+  h1#finishingLabel.text-info.hide Đã tìm ra người bị
   a(name="board")
   #playerRow1.row
     .span2.hide.hand-unset.player-row

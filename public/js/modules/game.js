@@ -9,8 +9,26 @@ define(['utility', 'websocket' ], function() {
     Minion.mediator.publish('socket receive', 'join game failed due to full', function() {
       location.href = '/?joinFull=true'
     });
-    Minion.mediator.publish('socket receive', 'game finished', function() {
-      // Show result
+    Minion.mediator.publish('socket receive', 'game finished', function(data) {
+      // Since this event is fired immediated from server, we need to wait for while
+      // so that animate effect finished, after that we can run
+      setTimeout(function() {
+        var handToHide = data.selectUp ? 'down' : 'up';
+        $('#progressHeader').addClass('hide');
+        $('#finishingLabel').removeClass('hide');
+        
+        // Show losers
+        playerRows.each(function(ind) {
+          var view = $(this);
+          if( !view.hasClass('hide') ) {
+            if(data.draw) {
+              
+            } else {
+              if( view.find('.hand').hasClass(handToHide) ) view.addClass('invisible');
+            } 
+          }
+         });  
+      }, 1500);
     });
     Minion.mediator.publish('socket receive', 'update players state', function(data) {
        var players = data.players;
@@ -30,7 +48,6 @@ define(['utility', 'websocket' ], function() {
                  handElement.addClass(p.handUp ? 'up' : 'down').fadeIn(500);
                });  
              }
-              
            }
          }
        });

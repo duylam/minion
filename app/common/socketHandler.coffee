@@ -29,7 +29,20 @@ class Handler
         db.getGame gameKey, (err, game) ->
           unless err
             if players.length == game.clientAmount and players.every( (p) -> !p.handUnset )
-              io.sockets.in(gameKey).emit 'game finished'
+              handUpCount = players.filter( (p) -> p.handUp ).length
+              handDownCount = players.length - handUpCount
+              
+              drawResult = false
+              selectUp = true
+              if handUpCount == handDownCount
+                drawResult = true
+              else  
+                if game.pickLess
+                  selectUp = handUpCount < handDownCount
+                else
+                  selectUp = handUpCount > handDownCount
+                
+              io.sockets.in(gameKey).emit 'game finished', { draw: drawResult, selectUp: selectUp }
   
   
   join: (data, socket, io) ->
