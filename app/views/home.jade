@@ -4,6 +4,9 @@ block mainContentBlock
   h2 about
   if dbError
     p.text-error Gặp lỗi khi truy cập database rồi, chút làm lại thử coi được không
+  
+  if gameFullError
+    p.text-error Phòng game đầy rồi, không vào được nữa
 
   p
     | https://github.com/developmentseed/node-sqlite3

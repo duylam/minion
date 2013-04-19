@@ -15,6 +15,9 @@ html
     script(type="text/javascript")
       require.config({
         baseUrl: '/js/modules'
+        , paths: {
+          'socketio': '../socket.io.v0.9.11'
+        }
       });
   
     .container(style="width: 1000px;")

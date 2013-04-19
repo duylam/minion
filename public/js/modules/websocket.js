@@ -1,4 +1,4 @@
-define(['utility'], function() {
+define(['socketio', 'utility'], function(io) {
   var connectToServerOk = false;
   var connectionEstablishedTimeout = 4000; // 4 seconds
   var connectionOptions = {
@@ -32,14 +32,6 @@ define(['utility'], function() {
     socket.on('connect', _.bind(onSocketConnected, socket)); // attach socket object to function
     socket.on('message', onSocketMessageAvaialble);
     socket.on('disconnect', onSocketDisconnected);
-      
-    setTimeout(function() {
-      if( !connectToServerOk ) {
-        // IDM (Internet Download Manager) application interferes the websocket connection so
-        // we will switch to polling in case web socket doesn't work
-        socket.disconnect();
-      }
-    }, connectionEstablishedTimeout);
   }
   
   Minion.mediator.subscribe('connected', function(socket) {

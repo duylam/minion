@@ -1,7 +1,6 @@
 extends ./layout
 
 block headerBlock
-  script(type="text/javascript", src='/js/socket.io.v0.9.10.js')
   script(type="text/javascript", src='/js/mediator.js')
   
 block mainContentBlock
@@ -12,28 +11,50 @@ block mainContentBlock
   input#server_playerAmount(type="hidden", value="#{playerAmount}")
   
   a#copyJoinLinkInput
-  .row
-    .span2
+  #playerRow1.row
+    .span2.hide
       .hand.small
-      p Player name
-    .span2
+      span.playerName
+    .span2.hide
       .hand.small
-      p Player name
+      span.playerName
+    .span2.hide
+      .hand.small
+      span.playerName
+    .span2.hide
+      .hand.small
+      span.playerName
+    .span2.hide
+      .hand.small
+      span.playerName
+      
 
   br
   br
-  .row
-    .span2
+  #playerRow2.row.hide
+    .span2.hide
       .hand.small
-      p Player name
-    .span2
+      span.playerName
+    .span2.hide
       .hand.small
-      p Player name
+      span.playerName
+    .span2.hide
+      .hand.small
+      span.playerName
+    .span2.hide
+      .hand.small
+      span.playerName
+    .span2.hide
+      .hand.small
+      span.playerName
 
-  #btnSelectHandUp.span3.clickable.select-hand
-    .hand.up
-  #btnSelectHandDown.span3.clickable.select-hand
-    .hand.down
+  p
+  p
+  #handSelectSection.hide
+    #btnSelectHandUp.span3.clickable.select-hand
+      .hand.up
+    #btnSelectHandDown.span3.clickable.select-hand
+      .hand.down
       
   script(type="text/javascript")
     require([ 'game' ]);

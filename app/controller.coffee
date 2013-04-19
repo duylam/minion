@@ -60,10 +60,12 @@ class Controller
       else
         onInvalidGameKey()
     
+    
   home: (req, res) ->
     @render res, 'home',
       page: 'home'
       dbError: req.flash('db error').length > 0
+      gameFullError: (req.query.joinFull or '') == 'true'
     
     
   game: (req, res) ->

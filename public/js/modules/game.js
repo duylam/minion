@@ -1,12 +1,37 @@
 define([ 'websocket' ], function() {
-  var selectedHand = false;
+  var playerAmount = parseInt( $('#server_playerAmount').val() );
+  var playerRows = $('#playerRow1 > div, #playerRow2 > div');
   Minion.mediator.subscribe('socket ready', function() {
     Minion.mediator.publish('socket send', 'set socket key', { socketKey: Minion.getSocketKey() });
     Minion.mediator.publish('socket receive', 'socket key ready', function() {
       Minion.mediator.publish('socket send', 'join game', { playerName: Minion.getPlayerName() , gameKey: Minion.getGameKey() });  
     });
+    Minion.mediator.publish('socket receive', 'join game failed due to full', function() {
+      location.href = '/?joinFull=true'
+    });
+    Minion.mediator.publish('socket receive', 'game finished', function() {
+      // Show result
+    });
     Minion.mediator.publish('socket receive', 'update players state', function(data) {
-       //  data.players key  name    hand
+       var players = data.players;
+       //  data.players  name    handUnset handUp
+       playerRows.each(function(ind) {
+         var p = players[ind];
+         var view = $(this);
+         if(p && !view.hasClass('hide') ) {
+           view.find('.playerName').text(p.name);
+           if( !p.handUnset ) {
+             var handElement = view.find('.hand');
+             if( p.handUp ) {
+               handElement.addClass('up');
+             } else {
+               handElement.addClass('down');
+             }
+           }
+         }
+       });
+       
+       $('#handSelectSection').show(500);
     });
   });
   
@@ -14,12 +39,13 @@ define([ 'websocket' ], function() {
   var handUpBtn = $('#btnSelectHandUp');
   var handDownBtn = $('#btnSelectHandDown'); 
   function onSelectHand(isUp, otherHand) {
+    // Update UI
     otherHand.addClass('select-hand-non-hover');
     handDownBtn.off('click').removeClass('select-hand clickable');
     handUpBtn.off('click').removeClass('select-hand clickable');
     
-    //Minion.sendSocket(TYPE.CHOOSE_HAND, { up: isUp });
-    selectedHand = true;  
+    // Let server know
+    Minion.mediator.publish('socket send', 'set hand', { up: isUp, gameKey: Minion.getGameKey() });
   }
   
   handUpBtn.click(function() {
@@ -31,7 +57,20 @@ define([ 'websocket' ], function() {
   });
 
   ///////////// Code
+  
+  // Show join link
   var joinLink = location.protocol + '//' + location.host + '/join?k=' + Minion.getGameKey();
   $('#copyJoinLinkInput').attr('href', joinLink).text(joinLink);
   
+  // Unhide player rows
+  var lagestIndex = playerAmount - 1;
+  if(playerAmount > 5) {
+    $('#playerRow2').removeClass('hide');
+  }
+  
+  playerRows.each(function(ind) {
+    if(ind <= lagestIndex) {
+      $(this).removeClass('hide');
+    }
+  });
 });

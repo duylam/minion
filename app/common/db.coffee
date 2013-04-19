@@ -3,6 +3,10 @@ path = require 'path'
 helpers = require './helpers'
 DateString = require './dateString'
 
+HAND_DOWN = -1
+HAND_UNSET = 0
+HAND_UP = 1
+
 class DB  
   createDB: (cb) ->
     self = @
@@ -17,10 +21,10 @@ class DB
         global.logger.error 'Failed to create GAME table'  
   
   savePlayer: (gameKey, socketKey, playerName, cb) ->
-    @db.run "INSERT INTO client VALUES (?, ?, ?, 0)", [ gameKey, socketKey, playerName], cb
+    @db.run "INSERT INTO client VALUES (?, ?, ?, ?)", [ gameKey, socketKey, playerName, HAND_UNSET], cb
     
   saveHandForPlayer: (socketKey, handUp, cb) ->
-    handType = if handUp then 1 else -1
+    handType = if handUp then HAND_UP else HAND_DOWN
     @db.run "UPDATE client SET handType = ? WHERE socketKey=?", [ handType, socketKey ], cb
   
   saveNewGame: (gameKey, peopleNum, pickLess, cb) ->
@@ -29,7 +33,7 @@ class DB
   getPlayersInGame: (gameKey, cb) ->
     @db.all "SELECT * FROM client WHERE gameKey=?", [ gameKey ], (err, rows) ->
       if !err
-        cb null, rows.map( (e) -> { key: e.socketKey.substr(5, 5), name: e.name, hand: e.handType } )          
+        cb null, rows.map( (e) -> { name: e.name, handUnset: e.handType == HAND_UNSET, handUp: e.handType == HAND_UP } )          
       else
         cb err
   
