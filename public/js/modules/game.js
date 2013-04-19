@@ -21,10 +21,16 @@ define(['utility', 'websocket' ], function() {
          if(p && !view.hasClass('hide') ) {
            view.find('.playerName').text(p.name);
            if( !p.handUnset ) {
+             view.removeClass('hand-unset');
              var handElement = view.find('.hand');
-             handElement.fadeOut(500,function() {
-               handElement.addClass(p.handUp ? 'up' : 'down').fadeIn(500);
-             }); 
+             
+             // Update hands only once
+             if( !handElement.hasClass('up') && !handElement.hasClass('down') ) {
+               handElement.fadeOut(500,function() {
+                 handElement.addClass(p.handUp ? 'up' : 'down').fadeIn(500);
+               });  
+             }
+              
            }
          }
        });

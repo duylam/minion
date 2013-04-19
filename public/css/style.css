@@ -12,3 +12,5 @@
 .hand.small{background-size:300px 162px;background-position:200px 0;width:100px;height:162px;}
 .hand.small.up{background-position: 100px 0;}
 .hand.small.down{background-position: 300px 0;}
+
+.hand-unset{opacity:0.5;}
