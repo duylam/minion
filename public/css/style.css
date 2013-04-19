@@ -14,3 +14,5 @@
 .hand.small.down{background-position: 300px 0;}
 
 .hand-unset{opacity:0.5;}
+.player-row{text-align: center;}
+.player-row .playerName {color:blue;}
