@@ -34,7 +34,7 @@ class Handler
               
               drawResult = false
               selectUp = true
-              if handUpCount == handDownCount
+              if handUpCount == handDownCount or players.every( (p) -> !p.handUp ) or players.every( (p) -> p.handUp )
                 drawResult = true
               else  
                 if game.pickLess

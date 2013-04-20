@@ -22,11 +22,17 @@ exports.generateUniqueKey = (value, cb) ->
   for v, i in value
     key += value.charCodeAt(i).toString(16)
   
+  hashDataFunc = (data) ->
+    shasum = crypto.createHash 'sha1'
+    shasum.update data
+    cb shasum.digest('hex').substr(3, 15)
+    
   crypto.randomBytes 15, (err, buff) ->
     if err
-      cb key
+      hashDataFunc key
     else
       for b in buff
         key += b.toString 16
       
-      cb key
+      hashDataFunc key
+

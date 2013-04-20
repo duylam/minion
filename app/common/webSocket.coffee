@@ -19,12 +19,5 @@ class WebSocketManager
     @io.sockets.on 'connection', (socket) ->
       handler.setup socket, self.io
       
-    event.on 'send room', (roomName, data) ->
-      message = JSON.stringify(data)
-      try
-        self.io.sockets.in(roomName).emit 'message', message
-      catch err
-        global.logger.error "Error when sending message to websocket. Message: " + message
-
 
 module.exports = new WebSocketManager

@@ -7,14 +7,14 @@ block mainContentBlock
       .help-block Tạo phòng và sau đó gửi liên kết cho bạn bè để mời vào phòng
       .control-group
         .controls
-          - var peopleJoined = [3, 4, 5, 6, 7, 8, 9, 10];
+          - var peopleJoined = [4, 5, 6, 7, 8, 9, 10];
           select#peopleAmountInput(name="peopleAmountInput")
-            option(value="0") Chọn số lượng người
+            option(value="3") 3 (Số lượng người)
             each p in peopleJoined
               option(value=p)= p
       .control-group
         .controls
-          input#nameInput.input-xlarge(type="text", placeholder="Tên bạn", name="nameInput", maxlength="100")
+          input#nameInput.input-xlarge(type="text", placeholder="Tên bạn", name="nameInput", maxlength="40")
       .control-group
         .controls
           label.radio

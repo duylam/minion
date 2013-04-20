@@ -15,19 +15,17 @@ define(['utility', 'websocket' ], function() {
       setTimeout(function() {
         var handToHide = data.selectUp ? 'down' : 'up';
         $('#progressHeader').addClass('hide');
-        $('#finishingLabel').removeClass('hide');
         
-        // Show losers
-        playerRows.each(function(ind) {
-          var view = $(this);
-          if( !view.hasClass('hide') ) {
-            if(data.draw) {
-              
-            } else {
-              if( view.find('.hand').hasClass(handToHide) ) view.addClass('invisible');
-            } 
-          }
-         });  
+        if(data.draw) {
+          $('#drawFinishingLabel').removeClass('hide');
+        } else {
+          $('#finishingLabel').removeClass('hide');
+          // Show losers
+          playerRows.each(function(ind) {
+            var view = $(this);
+            if( !view.hasClass('hide') && view.find('.hand').hasClass(handToHide) ) view.addClass('invisible');
+          });
+        }
       }, 1500);
     });
     Minion.mediator.publish('socket receive', 'update players state', function(data) {
