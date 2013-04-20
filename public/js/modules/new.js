@@ -8,6 +8,7 @@ define([], function() {
     
     if( !nameCtrl.val() ) {
       parentNameCtrl.addClass('error');
+      nameCtrl.focus();
       inputOk = false;
     }
     

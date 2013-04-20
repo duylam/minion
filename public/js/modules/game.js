@@ -1,6 +1,7 @@
 define(['utility', 'websocket' ], function() {
   var playerAmount = parseInt( $('#server_playerAmount').val() );
   var playerRows = $('#playerRow1 > div, #playerRow2 > div');
+  var directionAnimationIntervalId = 0;
   Minion.mediator.subscribe('socket ready', function() {
     Minion.mediator.publish('socket send', 'set socket key', { socketKey: Minion.getSocketKey() });
     Minion.mediator.publish('socket receive', 'socket key ready', function() {
@@ -30,7 +31,6 @@ define(['utility', 'websocket' ], function() {
     });
     Minion.mediator.publish('socket receive', 'update players state', function(data) {
        var players = data.players;
-       //  data.players  name    handUnset handUp
        playerRows.each(function(ind) {
          var p = players[ind];
          var view = $(this);
@@ -50,7 +50,23 @@ define(['utility', 'websocket' ], function() {
          }
        });
        
-       $('#handSelectSection').fadeIn(500);
+       $('#handSelectSection').fadeIn(500, function() {
+          var marginLeftValue = 0;
+          var maxMarginLeftValue = 10;
+          var increaseUp = true;
+          var imageCtrl = $('#handDescImage');
+          directionAnimationIntervalId = setInterval(function() {
+            if( increaseUp ) {
+              ++marginLeftValue;
+              if( marginLeftValue > maxMarginLeftValue ) increaseUp = false;
+            } else {
+              --marginLeftValue;
+              if( marginLeftValue < 0 ) increaseUp = true;
+            }
+            
+            imageCtrl.css('margin-left', marginLeftValue + 'px');
+          }, 30);
+       });
     });
   });
   
@@ -63,6 +79,7 @@ define(['utility', 'websocket' ], function() {
     handDownBtn.off('click').removeClass('select-hand clickable');
     handUpBtn.off('click').removeClass('select-hand clickable');
     $('#handSelectDescPanel').fadeOut(500);
+    clearInterval(directionAnimationIntervalId);
     
     // Let server know
     Minion.mediator.publish('socket send', 'set hand', { up: isUp, gameKey: Minion.getGameKey() });
