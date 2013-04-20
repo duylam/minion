@@ -29,12 +29,16 @@ block mainContentBlock
   #handSelectSection.hide
     #btnSelectHandUp.span3.clickable.select-hand.hand.up
     #btnSelectHandDown.span3.clickable.select-hand.hand.down
-    #handSelectDescPanel(style="float: left;float: left;padding-left: 25px;padding-top:20px;")
+    #handSelectDescPanel(style="float: left;padding-left: 25px;padding-top:20px;")
       .well.span2  
         i.icon-hand-up 
         | &nbsp; Hãy chọn tay
       .clearfix
       img#handDescImage(src="./images/select-hand-desc.gif")
+    div(style="float: left;padding-left: 25px;")
+      #chatMessageContainer.chat-container
+      .chat-action
+        input#chatInput.input-xlarge(type="text",placeholder="Chat với phòng")
   .clearfix
   p &nbsp;
   h1#progressHeader Diễn biến trò chơi

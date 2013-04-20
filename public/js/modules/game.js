@@ -2,6 +2,8 @@ define(['utility', 'websocket' ], function() {
   var playerAmount = parseInt( $('#server_playerAmount').val() );
   var playerRows = $('#playerRow1 > div, #playerRow2 > div');
   var directionAnimationIntervalId = 0;
+  var chatContainerCtrl = $('#chatMessageContainer');
+  var chatInputCtrl = $('#chatInput');
   Minion.mediator.subscribe('socket ready', function() {
     Minion.mediator.publish('socket send', 'set socket key', { socketKey: Minion.getSocketKey() });
     Minion.mediator.publish('socket receive', 'socket key ready', function() {
@@ -9,6 +11,16 @@ define(['utility', 'websocket' ], function() {
     });
     Minion.mediator.publish('socket receive', 'join game failed due to full', function() {
       location.href = '/?joinFull=true'
+    });
+    Minion.mediator.publish('socket receive', 'receive chat message', function(data) {
+      chatContainerCtrl.append(
+        $('<div />', { class: 'chat-entry' })
+          .append($('<span />', { class: 'label chat-username' }).text(data.sender))
+          .append($('<span />', { class: 'chat-message' }).text(data.message))
+      );
+      
+      // Jump to bottom
+      chatContainerCtrl.scrollTop( chatContainerCtrl.prop("scrollHeight") );
     });
     Minion.mediator.publish('socket receive', 'game finished', function(data) {
       // Since this event is fired immediated from server, we need to wait for while
@@ -94,6 +106,16 @@ define(['utility', 'websocket' ], function() {
   
   handDownBtn.click(function() {
     onSelectHand(false, handUpBtn);
+  });
+  
+  chatInputCtrl.keypress(function(e) {
+    if(e.which == 13) {
+      var msg = chatInputCtrl.val();
+      if( msg ) {
+        chatInputCtrl.val('');
+        Minion.mediator.publish('socket send', 'send chat message', { gameKey: Minion.getGameKey(), sender: Minion.getPlayerName(), message: msg });  
+      }
+    }
   });
 
   ///////////// Code

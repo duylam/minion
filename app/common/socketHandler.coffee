@@ -15,6 +15,8 @@ class Handler
     socket.on 'set hand', (data) ->
       handler.setHand data, socket, io
   
+    socket.on 'send chat message', (data) ->
+      handler.sendChat data, io
   
   broadcastHandUpdated: (gameKey, socket, io, joinSocketToRoom = false) ->
     db.getPlayersInGame gameKey, (err, players) ->
@@ -44,6 +46,11 @@ class Handler
                 
               io.sockets.in(gameKey).emit 'game finished', { draw: drawResult, selectUp: selectUp }
   
+  
+  sendChat: (data, io) ->
+    gameKey = data.gameKey
+    delete data.gameKey # don't include this field in broadcast 
+    io.sockets.in(gameKey).emit 'receive chat message', data
   
   join: (data, socket, io) ->
     playerName = data.playerName

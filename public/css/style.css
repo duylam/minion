@@ -16,3 +16,10 @@
 .hand-unset{opacity:0.5;}
 .player-row{text-align: center;}
 .player-row .playerName {color:blue;}
+
+
+.chat-action, .chat-container{ width: 300px;}
+.chat-action {margin-top:5px;}
+.chat-container{border-top: 1px solid orange;border-bottom: 1px solid orange;overflow-y:auto;height:280px;}
+.chat-container .chat-entry {padding: 1px 3px;}
+.chat-container .chat-entry .chat-message {margin-left:4px;}
