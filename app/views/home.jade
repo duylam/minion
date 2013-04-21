@@ -1,19 +1,57 @@
 extends ./layout
     
+block headerBlock
+  style
+    .alert {height: 100px;}
+    .alert:hover {margin-top: 5px;}
+    
 block mainContentBlock
-  h2 about
   if dbError
     p.text-error Gặp lỗi khi truy cập database rồi, chút làm lại thử coi được không
-  
   if gameFullError
     p.text-error Phòng game đầy rồi, không vào được nữa
-
-  p
-    | https://github.com/developmentseed/node-sqlite3
   
-  p
-    | http://twitter.github.io/bootstrap
-
-  p
-    a(href="https://github.com/duylam/minion") See me in Github
+  | Tham khảo mã nguồn tại 
+  a(href="https://github.com/duylam/minion") github
+  p &nbsp;
+  | Đây là ứng dụng web giúp bạn chơi trò tay trắng tay đen (<em>nhiều ra ít bị</em> hay <em>ít ra nhiều bị</em>) với bạn bè qua mạng Internet. 
+  | Ứng dụng web này minh họa cho kĩ thuật sử dụng websocket trên HTML5. 
+  | Những nền tảng và thư viện sau đã được dùng:
+  ul
+    li
+      a(href="http://nodejs.org", target="_blank") node.js
+      | : do ứng dụng sử dụng nhiều truy cập IO (websocket) trên server nên node.js là nền tảng thích hợp để xây dựng
+    li 
+      a(href="http://coffeescript.org/", target="_blank") CoffeeScript
+      | : dùng cú pháp CoffeeScript trên server cho dễ viết và nhanh, bản thân mã CoffeeScript sẽ được biên dịch ra JavaScript
+    li
+      a(href="http://expressjs.com/", target="_blank") express
+      | : thư viện cho phát triển web trên nodejs và sử dụng jade để render ra HTML
+    li 
+      a(href="http://twitter.github.io/bootstrap", target="_blank") Bootstrap
+      | : thư viện cho phát triển front-end web nhanh và dễ dàng hơn
+    li 
+      a(href="http://requirejs.org/", target="_blank") RequireJS
+      | : tối ưu hóa việc tải và chạy các file JavaScript dưới browser
+    li 
+      a(href="https://github.com/learnboost/socket.io/", target="_blank") socket.io
+      | : thư viện cho việc sử dụng HTML5 websocket trên nodejs tại server và dưới browser  
+  p &nbsp;
+  h2 Chỉ cần 3 bước để chơi
+  div(style="min-height: 150px;")
+    .alert.alert-info.text-center.span3
+      h3 
+        a(href="new") 1. Tạo phòng chơi
+      small Phòng cho nhóm của mình đề tìm ra người "bị"
+    .alert.alert-info.text-center.span4
+      h3 2. Mời bạn vào phòng
+      small Sau khi tạo phòng, hãy gửi liên kết cho bạn bè để họ vào chơi chung với bạn
+    .alert.alert-info.text-center.span3
+      h3 3. Chọn tay
+      small Bạn chọn tay trắng hay tay đen ?
+    .clearfix
+  p.muted.text-right
+    | Cảm ơn và chơi vui vẻ
+    br
+    img(src="images/end.jpg")
     

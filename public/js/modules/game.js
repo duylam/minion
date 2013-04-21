@@ -87,7 +87,7 @@ define(['utility', 'websocket' ], function() {
   var handDownBtn = $('#btnSelectHandDown'); 
   function onSelectHand(isUp, otherHand) {
     // Update UI
-    otherHand.addClass('select-hand-non-hover');
+    otherHand.addClass('hide');
     handDownBtn.off('click').removeClass('select-hand clickable');
     handUpBtn.off('click').removeClass('select-hand clickable');
     $('#handSelectDescPanel').fadeOut(500);
@@ -139,4 +139,9 @@ define(['utility', 'websocket' ], function() {
       $(this).removeClass('hide');
     }
   });
+  
+  // Show warning when going to another page
+  window.onbeforeunload = function() {
+    return 'Rời khỏi phòng là không vào lại được đâu đó !';  
+  };
 });

@@ -2,7 +2,7 @@ doctype 5
 html
   head
     meta(http-equiv="Content-Type",content="text/html; charset=utf-8")
-    title Trần Quốc Toản ra quân
+    title Tay trắng tay đen
     script(type="text/javascript", src='/js/jquery.min.js')
     script(type="text/javascript", src='/js/bootstrap.min.js')
     script(type="text/javascript", src='/js/require.min.js')
@@ -27,18 +27,22 @@ html
           li.active
             a(href="/") 
               i.icon-home.icon-white
-              | Giới thiệu
+              | &nbsp;Giới thiệu
         else
           li
             a(href="/") 
               i.icon-home
-              | Giới thiệu
+              | &nbsp;Giới thiệu
         if page == 'new'
           li.active
-            a(href="/new") Tạo phòng chơi
+            a(href="/new") 
+              i.icon-play.icon-white
+              | &nbsp;Tạo phòng chơi
         else
           li
-            a(href="/new") Tạo phòng chơi
+            a(href="/new") 
+              i.icon-play
+              | &nbsp;Tạo phòng chơi
         
       
       block mainContentBlock
