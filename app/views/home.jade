@@ -10,26 +10,26 @@ block mainContentBlock
     p.text-error Gặp lỗi khi truy cập database rồi, chút làm lại thử coi được không
   if gameFullError
     p.text-error Phòng game đầy rồi, không vào được nữa
-  
-  | Tham khảo mã nguồn tại 
-  a(href="https://github.com/duylam/minion") github
-  p &nbsp;
-  | Đây là ứng dụng web giúp bạn chơi trò tay trắng tay đen (<em>nhiều ra ít bị</em> hay <em>ít ra nhiều bị</em>) với bạn bè qua mạng Internet. 
-  | Ứng dụng web này minh họa cho kĩ thuật sử dụng websocket trên HTML5. 
-  | Những nền tảng và thư viện sau đã được dùng:
+  .text-right 
+    | Mã nguồn tại 
+    a(href="https://github.com/duylam/minion") github
+  p &nbsp;  
+  | Minion là ứng dụng web giúp bạn chơi trò tay trắng tay đen (<em>nhiều ra ít bị</em> hay <em>ít ra nhiều bị</em>) với bạn bè qua mạng Internet. 
+  | Minion minh họa cho kĩ thuật sử dụng websocket của HTML5. 
+  | Những nền tảng và thư viện sau đã được dùng trong minion:
   ul
     li
       a(href="http://nodejs.org", target="_blank") node.js
-      | : do ứng dụng sử dụng nhiều truy cập IO (websocket) trên server nên node.js là nền tảng thích hợp để xây dựng
+      | : do minion sử dụng nhiều truy cập IO (websocket) trên server nên node.js là nền tảng thích hợp để xây dựng
     li 
       a(href="http://coffeescript.org/", target="_blank") CoffeeScript
       | : dùng cú pháp CoffeeScript trên server cho dễ viết và nhanh, bản thân mã CoffeeScript sẽ được biên dịch ra JavaScript
     li
       a(href="http://expressjs.com/", target="_blank") express
-      | : thư viện cho phát triển web trên nodejs và sử dụng jade để render ra HTML
+      | : thư viện cho phát triển web trên nodejs và sử dụng <em>jade</em> để render ra HTML
     li 
       a(href="http://twitter.github.io/bootstrap", target="_blank") Bootstrap
-      | : thư viện cho phát triển front-end web nhanh và dễ dàng hơn
+      | : thư viện cho phát triển web front-end nhanh và dễ dàng hơn
     li 
       a(href="http://requirejs.org/", target="_blank") RequireJS
       | : tối ưu hóa việc tải và chạy các file JavaScript dưới browser

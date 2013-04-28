@@ -13,8 +13,8 @@ environment =
       falseFn() if falseFn
 
 config =
-  WEBSOCKET_PORT: 443
-  WEB_PORT: 80
+  WEBSOCKET_PORT: 8081
+  WEB_PORT: 8080
   STATIC_FILE_CACHE_DURATION: A_DAY
   
 environment.on 'development', ->
