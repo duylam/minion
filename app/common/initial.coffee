@@ -12,6 +12,7 @@ environment =
     else
       falseFn() if falseFn
 
+# Use ports below 1024 requires the application must run with root user e.g sudo
 config =
   WEBSOCKET_PORT: 8081
   WEB_PORT: 8080
