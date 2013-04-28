@@ -14,12 +14,12 @@ environment =
 
 # Use ports below 1024 requires the application must run with root user e.g sudo
 config =
-  WEBSOCKET_PORT: 8081
+  WEBSOCKET_PORT: 8080
   WEB_PORT: 8080
   STATIC_FILE_CACHE_DURATION: A_DAY
   
 environment.on 'development', ->
-  config.WEBSOCKET_PORT = 8000
+  config.WEBSOCKET_PORT = 7000
   config.WEB_PORT = 7000
   config.STATIC_FILE_CACHE_DURATION = 0
 

@@ -2,11 +2,11 @@ event = require './event'
 handler = require './socketHandler'
 
 class WebSocketManager
-  constructor: ->
+  init: (server) ->
     self = @
     
     # Recommened production settings: https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO
-    @io = require('socket.io').listen(global.config.WEBSOCKET_PORT)
+    @io = require('socket.io').listen(server)
     @io.configure ->
       self.io.disable('browser client')
         .disable('log colors')

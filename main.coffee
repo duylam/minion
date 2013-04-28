@@ -1,5 +1,6 @@
 express = require 'express'
 path = require 'path'
+http = require 'http'
 require './app/common/initial'
 
 require './app/common/logger'
@@ -57,8 +58,10 @@ app.all '/*', (req, res) ->
 ################################################################
 
 db.init ->
-  app.listen global.config.WEB_PORT
-  require './app/common/websocket'
+  webSocket = require './app/common/webSocket'
+  httpServer = http.createServer app
+  webSocket.init httpServer
+  httpServer.listen global.config.WEB_PORT
   global.logger.info 'Web server started on port ' + global.config.WEB_PORT
   
 process.on 'uncaughtException', (err) ->
