@@ -12,6 +12,7 @@
 .hand.small{background-size:300px 162px;background-position:200px 0;width:100px;height:162px;}
 .hand.small.up{background-position: 100px 0;}
 .hand.small.down{background-position: 300px 0;}
+.hand.small.hide-hand {background-image:url('../images/censored.jpg');background-size:100px 162px;}
 
 .hand-unset{opacity:0.5;}
 .player-row{text-align: center;}

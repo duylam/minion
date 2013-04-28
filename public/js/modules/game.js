@@ -4,6 +4,7 @@ define(['utility', 'websocket' ], function() {
   var directionAnimationIntervalId = 0;
   var chatContainerCtrl = $('#chatMessageContainer');
   var chatInputCtrl = $('#chatInput');
+  var handSelected = false;
   Minion.mediator.subscribe('socket ready', function() {
     Minion.mediator.publish('socket send', 'set socket key', { socketKey: Minion.getSocketKey() });
     Minion.mediator.publish('socket receive', 'socket key ready', function() {
@@ -47,6 +48,13 @@ define(['utility', 'websocket' ], function() {
          var p = players[ind];
          var view = $(this);
          if(p && !view.hasClass('hide') ) {
+           if( !view.data('player-joined') ) {
+             chatContainerCtrl.append(
+               $('<div />', { class: 'chat-entry' }).text(p.name + ' đã vào bàn')
+             );
+             view.data('player-joined', true);
+           }
+      
            view.find('.playerName').text(p.name);
            if( !p.handUnset ) {
              view.removeClass('hand-unset');
@@ -54,8 +62,19 @@ define(['utility', 'websocket' ], function() {
              
              // Update hands only once
              if( !handElement.hasClass('up') && !handElement.hasClass('down') ) {
+               if( !handElement.data('player-hand-selected') ) {
+                 chatContainerCtrl.append(
+                   $('<div />', { class: 'chat-entry' }).text(p.name + ' đã chọn tay')
+                 );
+                 handElement.data('player-hand-selected', true);
+               }
                handElement.fadeOut(500,function() {
-                 handElement.addClass(p.handUp ? 'up' : 'down').fadeIn(500);
+                 handElement.addClass(p.handUp ? 'up' : 'down');
+                 
+                 // Don't show the result in UI if user haven't selected hand
+                 if( !handSelected ) handElement.addClass('hide-hand');
+                 
+                 handElement.fadeIn(500);
                });  
              }
            }
@@ -92,12 +111,16 @@ define(['utility', 'websocket' ], function() {
     handUpBtn.off('click').removeClass('select-hand clickable');
     $('#handSelectDescPanel').fadeOut(500);
     clearInterval(directionAnimationIntervalId);
+    handSelected = true;
+    
+    // Show the user the result of hand of other users
+    playerRows.find('.hand').removeClass('hide-hand');
     
     // Let server know
     Minion.mediator.publish('socket send', 'set hand', { up: isUp, gameKey: Minion.getGameKey() });
     
     // Jump to board
-    location.href = $('#linkGoToBoard').attr('href');    
+    location.href = $('#linkGoToBoard').attr('href');   
   }
   
   handUpBtn.click(function() {
